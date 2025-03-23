@@ -1,4 +1,5 @@
 
+import 'package:dbms_project/screens/home_screen.dart';
 import 'package:dbms_project/screens/splash_screen.dart';
 import 'package:dbms_project/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Alunet',
       theme: AppTheme.lightTheme,
-      home: SplashScreen(),
+      home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

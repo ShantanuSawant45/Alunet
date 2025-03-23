@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    // this is the appwrite code to create a client and and a accout
     client = Client()
         .setEndpoint(
             'https://cloud.appwrite.io/v1') // Replace with your Appwrite endpoint

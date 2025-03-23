@@ -62,7 +62,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       // Note: 10.0.2.2 only works for Android emulator
       // documnetation
       final conn = await MySQLConnection.createConnection(
-        host: "192.168.29.211", // REPLACE WITH YOUR ACTUAL IP ADDRESS
+        host: "10.0.2.2", // REPLACE WITH YOUR ACTUAL IP ADDRESS
         port: 3306,
         userName: "root",
         password: "mysql@264",

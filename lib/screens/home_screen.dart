@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
 
+import 'User_profile.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _setupDatabaseConnection() async {
     try {
       final conn = await MySQLConnection.createConnection(
-        host: "192.168.29.211", // Make sure this matches your UserDetailsScreen
+        host: "10.0.2.2", // Make sure this matches your UserDetailsScreen
         port: 3306,
         userName: "root",
         password: "mysql@264",
@@ -182,7 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // TODO: Navigate to profile page
+              // Navigate to own profile page
+              // You'll need to implement this based on your authentication flow
             },
           ),
         ],
@@ -239,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error_outline,
+                  const Icon(Icons.error_outline,
                       color: Colors.red, size: 60),
                   const SizedBox(height: 16),
                   Text(
@@ -302,7 +305,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     onTap: () {
-                      // TODO: Navigate to alumni detail page
+                      // Navigate to the alumni profile page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AlumniProfilePage(
+                            alumniData: alumni,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 );
@@ -313,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Implement post creation
+          // Implement post creation logic
         },
         child: const Icon(Icons.add),
       ),
