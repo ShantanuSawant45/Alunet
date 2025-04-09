@@ -1,6 +1,5 @@
 
 import 'package:dbms_project/screens/home_screen.dart';
-import 'package:dbms_project/screens/splash_screen.dart';
 import 'package:dbms_project/screens/user_details_screen.dart';
 import 'package:dbms_project/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Alunet',
       theme: AppTheme.lightTheme,
-      home: SplashScreen(),
+      home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
