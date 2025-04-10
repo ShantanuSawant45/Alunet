@@ -292,4 +292,4 @@ class AlumniProfilePage extends StatelessWidget {
       throw Exception('Could not launch $url');
     }
   }
-}
+}       

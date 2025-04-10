@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dbms_project/screens/user_details_screen.dart';
 
@@ -19,18 +20,19 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  final _auth=FirebaseAuth.instance;
 
-  late Client client;
-  late Account account;
+  // late Client client;
+  // late Account account;
 
   @override
   void initState() {
     super.initState();
-    client = Client()
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('67dbcac7003104835164');
-
-    account = Account(client);
+    // client = Client()
+    //     .setEndpoint('https://cloud.appwrite.io/v1')
+    //     .setProject('67dbcac7003104835164');
+    //
+    // account = Account(client);
   }
 
   @override
@@ -50,19 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
     });
 
     try {
-      models.User user = await account.create(
-        userId: ID.unique(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-        name: _nameController.text.trim(),
-      );
-
-      // Create email session after successful signup
-      await account.createEmailPasswordSession(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
+     final signup_user= await _auth.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(

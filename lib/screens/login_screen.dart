@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:appwrite/appwrite.dart';
+// import 'package:appwrite/appwrite.dart';
 import 'package:dbms_project/screens/user_details_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,20 +16,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
+  final _auth=FirebaseAuth.instance;
 
-  late Client client;
-  late Account account;
+  // late Client client;
+  // late Account account;
 
   @override
   void initState() {
     super.initState();
     // this is the appwrite code to create a client and and a accout
-    client = Client()
-        .setEndpoint(
-            'https://cloud.appwrite.io/v1') // Replace with your Appwrite endpoint
-        .setProject('67dbcac7003104835164'); // Replace with your project ID
-
-    account = Account(client);
+    // client = Client()
+    //     .setEndpoint(
+    //         'https://cloud.appwrite.io/v1') // Replace with your Appwrite endpoint
+    //     .setProject('67dbcac7003104835164'); // Replace with your project ID
+    //
+    // account = Account(client);
   }
 
   @override
@@ -46,10 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      await account.createEmailPasswordSession(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+      final user= await _auth.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+      if (user==null) return;
 
       if (!mounted) return;
 
@@ -86,47 +86,47 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _forgotPassword() async {
-    if (_emailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your email first')),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      await account.createRecovery(
-        email: _emailController.text.trim(),
-        url:
-            'https://your-app-url.com/reset-password', // Replace with your app's reset password URL
-      );
-
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password recovery email sent!')),
-      );
-    } catch (e) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to send recovery email: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
+  // Future<void> _forgotPassword() async {
+  //   if (_emailController.text.isEmpty) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Please enter your email first')),
+  //     );
+  //     return;
+  //   }
+  //
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //
+  //   try {
+  //     await account.createRecovery(
+  //       email: _emailController.text.trim(),
+  //       url:
+  //           'https://your-app-url.com/reset-password', // Replace with your app's reset password URL
+  //     );
+  //
+  //     if (!mounted) return;
+  //
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Password recovery email sent!')),
+  //     );
+  //   } catch (e) {
+  //     if (!mounted) return;
+  //
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('Failed to send recovery email: ${e.toString()}'),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //   } finally {
+  //     if (mounted) {
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: _isLoading ? null : _forgotPassword,
+                  onPressed: (){},
                   child: const Text('Forgot Password?'),
                 ),
               ),
