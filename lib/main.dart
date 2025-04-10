@@ -1,12 +1,11 @@
 
+import 'package:dbms_project/Auth_Screens/signup_screen.dart';
 import 'package:dbms_project/screens/home_screen.dart';
-import 'package:dbms_project/screens/signup_screen.dart';
-import 'package:dbms_project/screens/splash_screen.dart';
-import 'package:dbms_project/screens/user_details_screen.dart';
+import 'package:dbms_project/screens/student_details_screen.dart';
+import 'package:dbms_project/screens/Alumni_details_screen.dart';
 import 'package:dbms_project/utils/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'firebase_options.dart';
 
 
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Alunet',
       theme: AppTheme.lightTheme,
-      home: UserDetailsScreen(),
+      home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

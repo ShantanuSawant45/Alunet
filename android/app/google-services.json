@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "160513777062",
+    "project_id": "alunet-60077",
+    "storage_bucket": "alunet-60077.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160513777062:android:08d65070f0872e6ac90367",
+        "android_client_info": {
+          "package_name": "com.ex.db"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJLQVpbSgCG_ncLPi8_6YfOGwl1mHBnwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

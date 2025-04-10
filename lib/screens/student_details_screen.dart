@@ -3,16 +3,18 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:mysql_client/mysql_client.dart';
 import 'home_screen.dart';
-import '../api/api_services.dart';
 
-class UserDetailsScreen extends StatefulWidget {
-  const UserDetailsScreen({super.key});
+class StudentDetailsScreen extends StatefulWidget {
+
+  const StudentDetailsScreen({
+    super.key,
+  });
 
   @override
-  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+  State<StudentDetailsScreen> createState() => _StudentDetailsScreenState();
 }
 
-class _UserDetailsScreenState extends State<UserDetailsScreen> {
+class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
@@ -20,7 +22,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   bool _isConnecting = false;
   String? _connectionError;
 
-  // Controllers for all fields
+  // Controllers for student fields
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -30,16 +32,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   final _graduationYearController = TextEditingController();
   final _degreeController = TextEditingController();
   final _majorController = TextEditingController();
-  final _currentCompanyController = TextEditingController();
-  final _designationController = TextEditingController();
-  final _experienceController = TextEditingController();
   final _linkedinController = TextEditingController();
   final _twitterController = TextEditingController();
   final _githubController = TextEditingController();
   final _skillsController = TextEditingController();
   final _bioController = TextEditingController();
-
-  // final ApiService _apiService = ApiService();
 
   @override
   void initState() {
@@ -58,11 +55,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     });
 
     try {
-      // For physical device, use your computer's actual IP address
-      // Note: 10.0.2.2 only works for Android emulator
-      // documnetation
       final conn = await MySQLConnection.createConnection(
-        host: "192.168.153.49", // REPLACE WITH YOUR ACTUAL IP ADDRESS
+        host: "192.168.153.49",
         port: 3306,
         userName: "root",
         password: "mysql@264",
@@ -111,7 +105,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   }
 
   Future<void> _saveToDatabase() async {
-    // If there's a connection error, try to reconnect
     if (_conn == null || _connectionError != null) {
       await _setupDatabaseConnection();
       if (_conn == null) {
@@ -127,12 +120,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     }
 
     try {
-      // this is an insert query
       final result = await _conn!.execute(
-        "INSERT INTO alumni (full_name, email, phone_number, address, city, country, graduation_year, "
-        "degree, major, current_company, designation, years_of_experience, linkedin_url, twitter_url, "
-        "github_url, skills, bio) VALUES (:name, :email, :phone, :address, :city, :country, :grad_year, "
-        ":degree, :major, :company, :designation, :experience, :linkedin, :twitter, :github, :skills, :bio)",
+        "INSERT INTO students (full_name, email, phone_number, address, city, country, graduation_year, "
+        "degree, major, linkedin_url, twitter_url, github_url, skills, bio) "
+        "VALUES (:name, :email, :phone, :address, :city, :country, :grad_year, "
+        ":degree, :major, :linkedin, :twitter, :github, :skills, :bio)",
         {
           "name": _nameController.text,
           "email": _emailController.text,
@@ -143,9 +135,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           "grad_year": int.parse(_graduationYearController.text),
           "degree": _degreeController.text,
           "major": _majorController.text,
-          "company": _currentCompanyController.text,
-          "designation": _designationController.text,
-          "experience": int.parse(_experienceController.text),
           "linkedin": _linkedinController.text,
           "twitter": _twitterController.text,
           "github": _githubController.text,
@@ -165,51 +154,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     }
   }
 
-  // void _saveProfile() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     // For testing without database connection
-  //     bool useApi = false; // Set to true to use API instead of direct database
-  //
-  //     if (useApi) {
-  //       // Using API service approach
-  //       final alumniData = {
-  //         'full_name': _nameController.text,
-  //         'email': _emailController.text,
-  //         'phone_number': _phoneController.text,
-  //         'address': _addressController.text,
-  //         'city': _cityController.text,
-  //         'country': _countryController.text,
-  //         'graduation_year': int.parse(_graduationYearController.text),
-  //         'degree': _degreeController.text,
-  //         'major': _majorController.text,
-  //         'current_company': _currentCompanyController.text,
-  //         'designation': _designationController.text,
-  //         'years_of_experience': int.parse(_experienceController.text),
-  //         'linkedin_url': _linkedinController.text,
-  //         'twitter_url': _twitterController.text,
-  //         'github_url': _githubController.text,
-  //         'skills': _skillsController.text,
-  //         'bio': _bioController.text,
-  //       };
-  //
-  //       try {
-  //         // await _apiService.saveAlumni(alumniData);
-  //         // Navigator.pushReplacement(
-  //         //   context,
-  //         //   MaterialPageRoute(builder: (context) => const HomeScreen()),
-  //         // );
-  //       } catch (e) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(content: Text('Failed to save profile: $e')),
-  //         );
-  //       }
-  //     } else {
-  //       // Directly save to database without showing loading indicator
-  //       await _saveToDatabase();
-  //     }
-  //   }
-  // }
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -221,16 +165,12 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     _graduationYearController.dispose();
     _degreeController.dispose();
     _majorController.dispose();
-    _currentCompanyController.dispose();
-    _designationController.dispose();
-    _experienceController.dispose();
     _linkedinController.dispose();
     _twitterController.dispose();
     _githubController.dispose();
     _skillsController.dispose();
     _bioController.dispose();
 
-    // Close the database connection
     _conn?.close();
     super.dispose();
   }
@@ -239,7 +179,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Complete Your Profile'),
+        title: const Text('Complete Your Student Profile'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -282,36 +222,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 ),
               ),
               const SizedBox(height: 32),
-
-              // Show connection status if there's an error
-              if (_connectionError != null)
-                Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.red.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.red),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.error_outline, color: Colors.red),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Database connection issue. Data will not be saved.',
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.refresh, color: Colors.red),
-                        onPressed: _setupDatabaseConnection,
-                        tooltip: 'Retry connection',
-                      ),
-                    ],
-                  ),
-                ),
-
               _buildTextField(_nameController, 'Full Name', Icons.person),
               _buildTextField(_emailController, 'Email', Icons.email),
               _buildTextField(_phoneController, 'Phone Number', Icons.phone),
@@ -323,12 +233,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               _buildTextField(_degreeController, 'Degree', Icons.school),
               _buildTextField(
                   _majorController, 'Major/Specialization', Icons.book),
-              _buildTextField(
-                  _currentCompanyController, 'Current Company', Icons.business),
-              _buildTextField(
-                  _designationController, 'Designation', Icons.work),
-              _buildTextField(
-                  _experienceController, 'Years of Experience', Icons.timeline),
               _buildTextField(
                   _linkedinController, 'LinkedIn Profile', Icons.link),
               _buildTextField(

@@ -2,7 +2,8 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dbms_project/screens/user_details_screen.dart';
+import 'package:dbms_project/screens/Alumni_details_screen.dart';
+import 'package:dbms_project/screens/student_details_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -20,7 +21,8 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
-  final _auth=FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
+  bool _isStudent = false;
 
   // late Client client;
   // late Account account;
@@ -52,7 +54,9 @@ class _SignupScreenState extends State<SignupScreen> {
     });
 
     try {
-     final signup_user= await _auth.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+      final signup_user = await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -60,10 +64,24 @@ class _SignupScreenState extends State<SignupScreen> {
             content: Text('Signup successful! Please verify your email.')),
       );
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const UserDetailsScreen()),
-      );
+      if (_isStudent) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StudentDetailsScreen(),
+            ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserDetailsScreen(
+              // email: _emailController.text.trim(),
+              // name: _nameController.text.trim(),
+            ),
+          ),
+        );
+      }
     } catch (e) {
       if (!mounted) return;
 
@@ -211,6 +229,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   }
                   return null;
                 },
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text('I am a student'),
+                  Switch(
+                    value: _isStudent,
+                    onChanged: (value) {
+                      setState(() {
+                        _isStudent = value;
+                      });
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
               SizedBox(
