@@ -1,6 +1,7 @@
 
 import 'package:dbms_project/Auth_Screens/signup_screen.dart';
 import 'package:dbms_project/screens/home_screen.dart';
+import 'package:dbms_project/screens/splash_screen.dart';
 import 'package:dbms_project/screens/student_details_screen.dart';
 import 'package:dbms_project/screens/Alumni_details_screen.dart';
 import 'package:dbms_project/utils/theme.dart';

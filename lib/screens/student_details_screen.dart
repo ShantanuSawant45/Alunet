@@ -56,7 +56,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
 
     try {
       final conn = await MySQLConnection.createConnection(
-        host: "192.168.153.49",
+        host: "192.168.110.49",
         port: 3306,
         userName: "root",
         password: "mysql@264",

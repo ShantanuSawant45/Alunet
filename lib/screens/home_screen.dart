@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _setupDatabaseConnection() async {
     try {
       final conn = await MySQLConnection.createConnection(
-        host: "192.168.153.49", // Make sure this matches your UserDetailsScreen
+        host: "192.168.110.49", // Make sure this matches your UserDetailsScreen
         port: 3306,
         userName: "root",
         password: "mysql@264",
